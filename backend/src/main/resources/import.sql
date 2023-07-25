@@ -1,3 +1,7 @@
+-- Privilégios
+INSERT INTO tb_privilege (authority) VALUES ('ROLE_ADMIN');
+INSERT INTO tb_privilege (authority) VALUES ('ROLE_CLIENT');
+
 INSERT INTO tb_categories (name) VALUES ('Eletrônicos');
 INSERT INTO tb_categories (name) VALUES ('Vestuário');
 INSERT INTO tb_categories (name) VALUES ('Artigos para casa e decoração');
