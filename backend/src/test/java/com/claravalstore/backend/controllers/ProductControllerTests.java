@@ -1,7 +1,8 @@
 package com.claravalstore.backend.controllers;
 
-import com.claravalstore.backend.dto.CategoryDTO;
-import com.claravalstore.backend.services.CategoryService;
+
+import com.claravalstore.backend.dto.ProductDTO;
+import com.claravalstore.backend.services.ProductService;
 import com.claravalstore.backend.services.exceptions.DatabaseException;
 import com.claravalstore.backend.services.exceptions.ResourceNotFoundException;
 import com.claravalstore.backend.tests.Factory;
@@ -13,6 +14,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -22,14 +24,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(CategoryController.class)
-class CategoryControllerTests {
+@WebMvcTest(ProductController.class)
+public class ProductControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private CategoryService service;
+    private ProductService service;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -37,25 +39,25 @@ class CategoryControllerTests {
     private Long existingId;
     private Long nonExistingId;
     private Long dependentId;
-    private CategoryDTO categoryDTO;
-
+    private ProductDTO productDTO;
+    private PageImpl<ProductDTO> page;
 
     @BeforeEach
     void setUp() {
         existingId = 1L;
         nonExistingId = 2L;
         dependentId = 3L;
-        categoryDTO = Factory.createCategoryDTO();
-        List<CategoryDTO> list = List.of(categoryDTO);
+        productDTO = Factory.createProductDTO();
+        page = new PageImpl<>(List.of(productDTO));
 
-        Mockito.when(service.findAll()).thenReturn(list);
+        Mockito.when(service.findAllPaged(ArgumentMatchers.any())).thenReturn(page);
 
-        Mockito.when(service.findById(existingId)).thenReturn(categoryDTO);
+        Mockito.when(service.findById(existingId)).thenReturn(productDTO);
         Mockito.when(service.findById(nonExistingId)).thenThrow(ResourceNotFoundException.class);
 
-        Mockito.when(service.insert(ArgumentMatchers.any())).thenReturn(categoryDTO);
+        Mockito.when(service.insert(ArgumentMatchers.any())).thenReturn(productDTO);
 
-        Mockito.when(service.update(Mockito.eq(existingId), ArgumentMatchers.any())).thenReturn(categoryDTO);
+        Mockito.when(service.update(Mockito.eq(existingId), ArgumentMatchers.any())).thenReturn(productDTO);
         Mockito.when(service.update(Mockito.eq(nonExistingId), ArgumentMatchers.any())).thenThrow(ResourceNotFoundException.class);
 
         Mockito.doNothing().when(service).delete(existingId);
@@ -64,59 +66,74 @@ class CategoryControllerTests {
     }
 
     @Test
-    void findAllShouldReturnList() throws Exception {
-        mockMvc.perform(get("/api/categories")
+    void findAllShouldReturnPage() throws Exception {
+        mockMvc.perform(get("/api/products")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void findByIdShouldReturnCategoryDTOWhenIdExists() throws Exception {
-        mockMvc.perform(get("/api/categories/{id}", existingId)
+    void findByIdShouldReturnProductDTOWhenIdExists() throws Exception {
+        mockMvc.perform(get("/api/products/{id}", existingId)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.name").exists());
+                .andExpect(jsonPath("$.name").exists())
+                .andExpect(jsonPath("$.description").exists())
+                .andExpect(jsonPath("$.price").exists())
+                .andExpect(jsonPath("$.quantity").exists())
+                .andExpect(jsonPath("$.imgUrl").exists())
+                .andExpect(jsonPath("$.categories").exists());
     }
 
     @Test
     void findByIdShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
-        mockMvc.perform(get("/api/categories/{id}", nonExistingId)
+        mockMvc.perform(get("/api/products/{id}", nonExistingId)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void insertShouldReturnCategoryDTOCreated() throws Exception {
-        String jsonBody = objectMapper.writeValueAsString(categoryDTO);
+    void insertShouldReturnProductDTOCreated() throws Exception {
+        String jsonBody = objectMapper.writeValueAsString(productDTO);
 
-        mockMvc.perform(post("/api/categories")
+        mockMvc.perform(post("/api/products")
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.name").exists());
+                .andExpect(jsonPath("$.name").exists())
+                .andExpect(jsonPath("$.description").exists())
+                .andExpect(jsonPath("$.price").exists())
+                .andExpect(jsonPath("$.quantity").exists())
+                .andExpect(jsonPath("$.imgUrl").exists())
+                .andExpect(jsonPath("$.categories").exists());
     }
 
     @Test
-    void updateShouldReturnCategoryDTOWhenIdExists() throws Exception {
-        String jsonBody = objectMapper.writeValueAsString(categoryDTO);
+    void updateShouldReturnProductDTOWhenIdExists() throws Exception {
+        String jsonBody = objectMapper.writeValueAsString(productDTO);
 
-        mockMvc.perform(put("/api/categories/{id}", existingId)
+        mockMvc.perform(put("/api/products/{id}", existingId)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.name").exists());
+                .andExpect(jsonPath("$.name").exists())
+                .andExpect(jsonPath("$.description").exists())
+                .andExpect(jsonPath("$.price").exists())
+                .andExpect(jsonPath("$.quantity").exists())
+                .andExpect(jsonPath("$.imgUrl").exists())
+                .andExpect(jsonPath("$.categories").exists());
     }
 
     @Test
-    void udpateShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
-        String jsonBody = objectMapper.writeValueAsString(categoryDTO);
+    void updateShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
+        String jsonBody = objectMapper.writeValueAsString(productDTO);
 
-        mockMvc.perform(put("/api/categories/{id}", nonExistingId)
+        mockMvc.perform(put("/api/products/{id}", nonExistingId)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -125,19 +142,19 @@ class CategoryControllerTests {
 
     @Test
     void deleteShouldReturnNoContentWhenIdExists() throws Exception {
-        mockMvc.perform(delete("/api/categories/{id}", existingId))
+        mockMvc.perform(delete("/api/products/{id}", existingId))
                 .andExpect(status().isNoContent());
     }
 
     @Test
     void deleteShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
-        mockMvc.perform(delete("/api/categories/{id}", nonExistingId))
+        mockMvc.perform(delete("/api/products/{id}", nonExistingId))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void deleteShouldReturnBadRequestWhenIdIsDependent() throws Exception {
-        mockMvc.perform(delete("/api/categories/{id}", dependentId))
+    void deleteShouldReturnBadRequestWhenIdDependent() throws Exception {
+        mockMvc.perform(delete("/api/products/{id}", dependentId))
                 .andExpect(status().isBadRequest());
     }
 }

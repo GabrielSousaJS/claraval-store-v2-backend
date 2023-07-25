@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
 import java.util.Optional;
 
 @DataJpaTest
@@ -25,6 +26,12 @@ class CategoryRepositoryTests {
         existingId = 1L;
         nonExistingId = 1000L;
         countTotalCategories = 6L;
+    }
+
+    @Test
+    void findAllShouldReturnListOfCategory() {
+        List<Category> result = repository.findAll();
+        Assertions.assertFalse(result.isEmpty());
     }
 
     @Test
