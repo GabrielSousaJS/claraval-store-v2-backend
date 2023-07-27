@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.List;
 
 public class CategoryDTO implements Serializable {
     @Serial

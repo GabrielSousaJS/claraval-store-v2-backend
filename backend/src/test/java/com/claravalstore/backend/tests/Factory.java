@@ -1,9 +1,9 @@
 package com.claravalstore.backend.tests;
 
-import com.claravalstore.backend.dto.CategoryDTO;
-import com.claravalstore.backend.dto.ProductDTO;
-import com.claravalstore.backend.entities.Category;
-import com.claravalstore.backend.entities.Product;
+import com.claravalstore.backend.dto.*;
+import com.claravalstore.backend.entities.*;
+
+import java.time.Instant;
 
 public class Factory {
 
@@ -24,5 +24,28 @@ public class Factory {
 
     public static CategoryDTO createCategoryDTO() {
         return new CategoryDTO(createCategory());
+    }
+
+    public static Privilege createPrivilege() {
+        return new Privilege(1L, "ROLE_ADMIN");
+    }
+
+    public static Address createAddress() {
+        return new Address(1L, "Rua 1", "12345-678", 123, "Bairro 1", "Complemento 1", "Cidade 1", "Estado 1", "País 1");
+    }
+
+    public static AddressDTO createAddressDTO() {
+        return new AddressDTO(createAddress());
+    }
+
+    public static User createUser() {
+        User user = new User(1L, "João Silva", Instant.parse("1990-07-20T10:30:00Z"), "joao.silva@gmail.com", "123456");
+        user.setAddress(createAddress());
+        user.getPrivileges().add(createPrivilege());
+        return user;
+    }
+
+    public static UserDTO createUserDTO() {
+        return new UserDTO(createUser(), createAddress());
     }
 }

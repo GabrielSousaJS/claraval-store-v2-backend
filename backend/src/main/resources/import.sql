@@ -2,6 +2,33 @@
 INSERT INTO tb_privilege (authority) VALUES ('ROLE_ADMIN');
 INSERT INTO tb_privilege (authority) VALUES ('ROLE_CLIENT');
 
+-- Endereços
+INSERT INTO tb_address (street, cep, number, neighborhood, complement, city, state, country) VALUES ('Rua Augusta', '01305-100', 1200, 'Consolação', 'de 699 a 1679 - lado ímpar', 'São Paulo', 'São Paulo', 'Brasil');
+INSERT INTO tb_address (street, cep, number, neighborhood, complement, city, state, country) VALUES ('Avenida Atlântica', '22011-010', 1500, 'Copacabana', 'lado par', 'Rio de Janeiro', 'Rio de Janeiro', 'Brasil');
+INSERT INTO tb_address (street, cep, number, neighborhood, complement, city, state, country) VALUES ('Rua Sergipe', '30130-170', 800, 'Boa Viagem', 'até 519/520', 'Belo Horizonte', 'Minas Gerais', 'Brasil');
+INSERT INTO tb_address (street, cep, number, neighborhood, complement, city, state, country) VALUES ('Setor Comercial Sul', '70390-901', 3, 'Asa Sul', 'SHLS Conjunto N Bloco D', 'Brasília', 'Distrito Federal', 'Brasil');
+INSERT INTO tb_address (street, cep, number, neighborhood, complement, city, state, country) VALUES ('Rua Visconde do Rio Branco', '80420-210', 1500, 'Centro', 'de 1276/1277 ao fim', 'Curitiba', 'Paraná', 'Brasil');
+
+-- Usuários
+INSERT INTO tb_users (name, birth_Date, email, password) VALUES ('Gabriela Oliveira', TIMESTAMP WITH TIME ZONE '1994-11-18', 'gabriela.oliveira@gmail.com', '$2a$10$R6Sppkl7ZTrqa0zc5m480.5j5yUJyls/qaRA2g47kuq2MqcjBcHIm');
+INSERT INTO tb_users (name, birth_Date, email, password) VALUES ('Marcelo Costa', TIMESTAMP WITH TIME ZONE '1988-07-06', 'marcelo.costa@gmail.com', '$2a$10$0JrJjMHhgursxEHrA8od5.BpakabJfQHIzmM.NMTw263X/AKCKFvK');
+INSERT INTO tb_users (name, birth_Date, email, password) VALUES ('Amanda Almeida', TIMESTAMP WITH TIME ZONE '1990-02-28', 'amanda.almeida@gmail.com', '$2a$10$nKt4ooP6e3axe7iXqytjcOREMdXbBonSgm1rhBciD/0K60ZUMefJq');
+INSERT INTO tb_users (name, birth_Date, email, password) VALUES ('Renato Nunes', TIMESTAMP WITH TIME ZONE '1995-05-11', 'renato.nunes@gmail.com', '$2a$10$i9U7Ro3FlP9ct8BmftASU.qRN4sMiOErOnNYdoAI6W3ZXKx88lyTS');
+INSERT INTO tb_users (name, birth_Date, email, password) VALUES ('Maria Santana', TIMESTAMP WITH TIME ZONE '1992-09-02', 'maria.santana@gmail.com', '$2a$10$QRt.m6epO0umO/1c.7zFQu/txwMrIP3YaOea7k2BJJAmcjqx.t0Wq');
+
+INSERT INTO tb_user_privilege (user_id, privilege_id) VALUES (1, 1);
+INSERT INTO tb_user_privilege (user_id, privilege_id) VALUES (1, 2);
+INSERT INTO tb_user_privilege (user_id, privilege_id) VALUES (2, 2);
+INSERT INTO tb_user_privilege (user_id, privilege_id) VALUES (3, 2);
+INSERT INTO tb_user_privilege (user_id, privilege_id) VALUES (4, 2);
+INSERT INTO tb_user_privilege (user_id, privilege_id) VALUES (5, 2);
+
+INSERT INTO tb_user_address (user_id, address_id) VALUES (1, 1);
+INSERT INTO tb_user_address (user_id, address_id) VALUES (2, 2);
+INSERT INTO tb_user_address (user_id, address_id) VALUES (3, 3);
+INSERT INTO tb_user_address (user_id, address_id) VALUES (4, 4);
+INSERT INTO tb_user_address (user_id, address_id) VALUES (5, 5);
+
 INSERT INTO tb_categories (name) VALUES ('Eletrônicos');
 INSERT INTO tb_categories (name) VALUES ('Vestuário');
 INSERT INTO tb_categories (name) VALUES ('Artigos para casa e decoração');
