@@ -39,8 +39,7 @@ public class Factory {
     }
 
     public static User createUser() {
-        User user = new User(1L, "João Silva", Instant.parse("1990-07-20T10:30:00Z"), "joao.silva@gmail.com", "123456");
-        user.setAddress(createAddress());
+        User user = new User(1L, "João Silva", Instant.parse("1990-07-20T10:30:00Z"), "joao.silva@gmail.com", "12345678");
         user.getPrivileges().add(createPrivilege());
         return user;
     }
