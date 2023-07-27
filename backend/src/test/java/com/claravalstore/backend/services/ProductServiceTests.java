@@ -95,15 +95,6 @@ class ProductServiceTests {
     }
 
     @Test
-    void updateShouldReturnProductDTOWhenIdExists() {
-        ProductDTO result = service.update(existingId, productDTO);
-
-        Assertions.assertNotNull(result);
-        Mockito.verify(repository).getReferenceById(existingId);
-        Mockito.verify(repository).save(product);
-    }
-
-    @Test
     void saveShouldReturnProductDTOWhenIdIsNull() {
         ProductDTO result = service.insert(productDTO);
 
@@ -113,6 +104,15 @@ class ProductServiceTests {
         Assertions.assertNotNull(result.getPrice());
         Assertions.assertNotNull(result.getImgUrl());
         Assertions.assertNotNull(result.getCategories());
+    }
+
+    @Test
+    void updateShouldReturnProductDTOWhenIdExists() {
+        ProductDTO result = service.update(existingId, productDTO);
+
+        Assertions.assertNotNull(result);
+        Mockito.verify(repository).getReferenceById(existingId);
+        Mockito.verify(repository).save(product);
     }
 
     @Test
