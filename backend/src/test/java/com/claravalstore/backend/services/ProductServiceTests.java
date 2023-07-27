@@ -57,7 +57,7 @@ class ProductServiceTests {
         category = Factory.createCategory();
         page = new PageImpl<>(List.of(product));
 
-        Mockito.when(repository.findAll((Pageable) ArgumentMatchers.any())).thenReturn(page);
+        Mockito.when(repository.searchAllPaged(ArgumentMatchers.any())).thenReturn(page);
 
         Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(product);
 
@@ -84,7 +84,7 @@ class ProductServiceTests {
         Page<ProductDTO> result = service.findAllPaged(pageable);
 
         Assertions.assertNotNull(result);
-        Mockito.verify(repository).findAll(pageable);
+        Mockito.verify(repository).searchAllPaged(pageable);
     }
 
     @Test

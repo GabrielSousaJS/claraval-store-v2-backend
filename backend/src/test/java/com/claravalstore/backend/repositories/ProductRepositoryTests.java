@@ -34,7 +34,7 @@ class ProductRepositoryTests {
     void findAllShouldReturnPageProduct() {
         Pageable pageable = PageRequest.of(0, 12);
 
-        Page<Product> page = repository.findAll(pageable);
+        Page<Product> page = repository.searchAllPaged(pageable);
 
         Assertions.assertFalse(page.isEmpty());
         Assertions.assertEquals(0, page.getNumber());
