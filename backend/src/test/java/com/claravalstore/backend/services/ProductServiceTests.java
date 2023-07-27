@@ -1,7 +1,9 @@
 package com.claravalstore.backend.services;
 
 import com.claravalstore.backend.dto.ProductDTO;
+import com.claravalstore.backend.entities.Category;
 import com.claravalstore.backend.entities.Product;
+import com.claravalstore.backend.repositories.CategoryRepository;
 import com.claravalstore.backend.repositories.ProductRepository;
 import com.claravalstore.backend.services.exceptions.DatabaseException;
 import com.claravalstore.backend.services.exceptions.ResourceNotFoundException;
@@ -34,11 +36,15 @@ class ProductServiceTests {
     @Mock
     private ProductRepository repository;
 
+    @Mock
+    private CategoryRepository categoryRepository;
+
     private long existingId;
     private long nonExistingId;
     private long dependentId;
     private Product product;
     private ProductDTO productDTO;
+    private Category category;
     private PageImpl<Product> page;
 
     @BeforeEach
@@ -48,17 +54,21 @@ class ProductServiceTests {
         dependentId = 3L;
         product = Factory.createProduct();
         productDTO = Factory.createProductDTO();
+        category = Factory.createCategory();
         page = new PageImpl<>(List.of(product));
 
         Mockito.when(repository.findAll((Pageable) ArgumentMatchers.any())).thenReturn(page);
 
         Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(product);
 
-        Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(product));
-        Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
+        Mockito.when(repository.searchById(existingId)).thenReturn(Optional.of(product));
+        Mockito.when(repository.searchById(nonExistingId)).thenReturn(Optional.empty());
 
         Mockito.when(repository.getReferenceById(existingId)).thenReturn(product);
         Mockito.when(repository.getReferenceById(nonExistingId)).thenThrow(EntityNotFoundException.class);
+
+        Mockito.when(categoryRepository.getReferenceById(existingId)).thenReturn(category);
+        Mockito.when(categoryRepository.getReferenceById(nonExistingId)).thenThrow(EntityNotFoundException.class);
 
         Mockito.when(repository.existsById(existingId)).thenReturn(true);
         Mockito.when(repository.existsById(nonExistingId)).thenReturn(false);
@@ -82,7 +92,7 @@ class ProductServiceTests {
         ProductDTO result = service.findById(existingId);
 
         Assertions.assertNotNull(result);
-        Mockito.verify(repository).findById(existingId);
+        Mockito.verify(repository).searchById(existingId);
     }
 
     @Test
@@ -91,7 +101,7 @@ class ProductServiceTests {
             service.findById(nonExistingId);
         });
 
-        Mockito.verify(repository).findById(nonExistingId);
+        Mockito.verify(repository).searchById(nonExistingId);
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.claravalstore.backend.services;
 
 import com.claravalstore.backend.dto.UserDTO;
+import com.claravalstore.backend.dto.UserMinDTO;
 import com.claravalstore.backend.entities.Address;
 import com.claravalstore.backend.entities.User;
 import com.claravalstore.backend.repositories.UserRepository;
@@ -57,7 +58,7 @@ class UserServiceTests {
     void findAllPagedReturnPage() {
         Pageable pageable = PageRequest.of(0, 12);
 
-        Page<UserDTO> result = service.findAllPaged(pageable);
+        Page<UserMinDTO> result = service.findAllPaged(pageable);
 
         Assertions.assertNotNull(result);
         Mockito.verify(repository).findAll(pageable);

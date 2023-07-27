@@ -4,6 +4,7 @@ import com.claravalstore.backend.dto.CategoryDTO;
 import com.claravalstore.backend.dto.ProductDTO;
 import com.claravalstore.backend.entities.Category;
 import com.claravalstore.backend.entities.Product;
+import com.claravalstore.backend.repositories.CategoryRepository;
 import com.claravalstore.backend.repositories.ProductRepository;
 import com.claravalstore.backend.services.exceptions.DatabaseException;
 import com.claravalstore.backend.services.exceptions.ResourceNotFoundException;
@@ -24,6 +25,9 @@ public class ProductService {
     @Autowired
     private ProductRepository repository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAllPaged(Pageable pageable) {
         Page<Product> page = repository.findAll(pageable);
@@ -42,7 +46,7 @@ public class ProductService {
         Product entity = new Product();
         copyDtoToEntity(entity, dto);
         entity = repository.save(entity);
-        return new ProductDTO(entity);
+        return new ProductDTO(entity, entity.getCategories());
     }
 
     @Transactional
@@ -77,7 +81,8 @@ public class ProductService {
 
         entity.getCategories().clear();
         for (CategoryDTO catDto : dto.getCategories()) {
-            entity.getCategories().add(new Category(catDto.getId(), catDto.getName()));
+            Category category = categoryRepository.getReferenceById(catDto.getId());
+            entity.getCategories().add(category);
         }
     }
 }

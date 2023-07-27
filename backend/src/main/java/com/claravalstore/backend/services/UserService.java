@@ -1,6 +1,7 @@
 package com.claravalstore.backend.services;
 
 import com.claravalstore.backend.dto.UserDTO;
+import com.claravalstore.backend.dto.UserMinDTO;
 import com.claravalstore.backend.entities.User;
 import com.claravalstore.backend.repositories.UserRepository;
 import com.claravalstore.backend.services.exceptions.ResourceNotFoundException;
@@ -19,9 +20,9 @@ public class UserService {
     private UserRepository repository;
 
     @Transactional(readOnly = true)
-    public Page<UserDTO> findAllPaged(Pageable pageable) {
+    public Page<UserMinDTO> findAllPaged(Pageable pageable) {
         Page<User> page = repository.findAll(pageable);
-        return page.map(UserDTO::new);
+        return page.map(UserMinDTO::new);
     }
 
     @Transactional(readOnly = true)

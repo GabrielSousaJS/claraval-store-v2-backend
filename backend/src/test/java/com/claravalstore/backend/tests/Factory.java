@@ -47,4 +47,8 @@ public class Factory {
     public static UserDTO createUserDTO() {
         return new UserDTO(createUser(), createAddress());
     }
+
+    public static UserMinDTO createUserMinDTO() {
+        return new UserMinDTO(createUser());
+    }
 }
