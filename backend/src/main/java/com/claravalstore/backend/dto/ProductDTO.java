@@ -2,6 +2,8 @@ package com.claravalstore.backend.dto;
 
 import com.claravalstore.backend.entities.Category;
 import com.claravalstore.backend.entities.Product;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,12 +19,20 @@ public class ProductDTO implements Serializable {
 
     @Getter @Setter
     private Long id;
+
+    @NotBlank(message = "Campo obrigatório")
     @Getter @Setter
     private String name;
+
+    @NotBlank(message = "Campo obrigatório")
     @Getter @Setter
     private String description;
+
+    @Positive(message = "Informe um valor positivo")
     @Getter @Setter
     private Double price;
+
+    @Positive(message = "Informe um valor positivo")
     @Getter @Setter
     private Integer quantity;
     @Getter @Setter

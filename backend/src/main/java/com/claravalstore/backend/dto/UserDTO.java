@@ -2,6 +2,8 @@ package com.claravalstore.backend.dto;
 
 import com.claravalstore.backend.entities.Address;
 import com.claravalstore.backend.entities.User;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,10 +19,16 @@ public class UserDTO implements Serializable {
 
     @Getter @Setter
     private Long id;
+
+    @NotBlank(message = "Campo obrigatório")
     @Getter @Setter
     private String name;
+
+    @NotBlank(message = "Campo obrigatório")
     @Getter @Setter
     private Instant birthDate;
+
+    @Pattern(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$", message = "Email inválido")
     @Getter @Setter
     private String email;
 
@@ -31,13 +39,6 @@ public class UserDTO implements Serializable {
     private List<PrivilegeDTO> privileges = new ArrayList<>();
 
     public UserDTO() {
-    }
-
-    public UserDTO(Long id, String name, Instant birthDate, String email) {
-        this.id = id;
-        this.name = name;
-        this.birthDate = birthDate;
-        this.email = email;
     }
 
     public UserDTO(User entity) {

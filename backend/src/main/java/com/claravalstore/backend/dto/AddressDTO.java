@@ -1,6 +1,9 @@
 package com.claravalstore.backend.dto;
 
 import com.claravalstore.backend.entities.Address;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,36 +16,40 @@ public class AddressDTO implements Serializable {
 
     @Getter @Setter
     private Long id;
+
+    @NotBlank(message = "Campo obrigatório")
     @Getter @Setter
     private String street;
+
+    @Pattern(regexp = "^\\d{5}(?:[-\\s]?\\d{3})?$", message = "Código postal inválido")
     @Getter @Setter
     private String cep;
+
+    @Positive(message = "Informe um valor positivo")
     @Getter @Setter
     private Integer number;
+
+    @NotBlank(message = "Campo obrigatório")
     @Getter @Setter
     private String neighborhood;
+
+    @NotBlank(message = "Campo obrigatório")
     @Getter @Setter
     private String complement;
+
+    @NotBlank(message = "Campo obrigatório")
     @Getter @Setter
     private String city;
+
+    @NotBlank(message = "Campo obrigatório")
     @Getter @Setter
     private String state;
+
+    @NotBlank(message = "Campo obrigatório")
     @Getter @Setter
     private String country;
 
     public AddressDTO() {
-    }
-
-    public AddressDTO(Long id, String street, String cep, Integer number, String neighborhood, String complement, String city, String state, String country) {
-        this.id = id;
-        this.street = street;
-        this.cep = cep;
-        this.number = number;
-        this.neighborhood = neighborhood;
-        this.complement = complement;
-        this.city = city;
-        this.state = state;
-        this.country = country;
     }
 
     public AddressDTO(Address entity) {

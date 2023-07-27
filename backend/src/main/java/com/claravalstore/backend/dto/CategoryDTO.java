@@ -1,6 +1,7 @@
 package com.claravalstore.backend.dto;
 
 import com.claravalstore.backend.entities.Category;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,8 @@ public class CategoryDTO implements Serializable {
 
     @Getter @Setter
     private Long id;
+
+    @NotBlank(message = "Campo obrigatório")
     @Getter @Setter
     private String name;
 
