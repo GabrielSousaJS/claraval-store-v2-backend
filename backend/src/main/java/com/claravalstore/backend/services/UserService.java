@@ -6,7 +6,6 @@ import com.claravalstore.backend.dto.UserMinDTO;
 import com.claravalstore.backend.entities.Privilege;
 import com.claravalstore.backend.entities.User;
 import com.claravalstore.backend.projections.UserDetailsProjection;
-import com.claravalstore.backend.repositories.PrivilegeRepository;
 import com.claravalstore.backend.repositories.UserRepository;
 import com.claravalstore.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class UserService implements UserDetailsService {
     private UserRepository repository;
 
     @Autowired
-    private PrivilegeRepository privilegeRepository;
+    private PrivilegeService privilegeService;
 
     @Autowired
     private AddressService addressService;
@@ -55,13 +54,23 @@ public class UserService implements UserDetailsService {
         User entity = new User();
 
         copyDtoToEntity(entity, dto);
-        Privilege privilege = privilegeRepository.findPrivilegeByAuthority("ROLE_CLIENT");
-        entity.addPrivilege(privilege);
-
+        entity.addPrivilege(privilegeService.clientPrivilege());
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         entity = repository.save(entity);
+        return new UserDTO(entity, entity.getAddress());
+    }
 
+    @Transactional
+    public UserDTO insertAdmin(UserInsertDTO dto) {
+        User entity = new User();
+
+        copyDtoToEntity(entity, dto);
+        entity.addPrivilege(privilegeService.clientPrivilege());
+        entity.addPrivilege(privilegeService.adminPrivilege());
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+        entity = repository.save(entity);
         return new UserDTO(entity, entity.getAddress());
     }
 
