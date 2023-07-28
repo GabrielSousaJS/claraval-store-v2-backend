@@ -64,7 +64,8 @@ class AddressServiceTests {
 
     @Test
     void insertShouldReturnAddressDTOWhenIdIsNull() {
-        AddressDTO result = service.insert(addressDTO);
+        addressDTO.setId(null);
+        Address result = service.insert(addressDTO);
 
         Assertions.assertNotNull(result.getId());
         Assertions.assertNotNull(result.getStreet());

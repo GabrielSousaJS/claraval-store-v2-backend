@@ -106,6 +106,7 @@ class ProductServiceTests {
 
     @Test
     void saveShouldReturnProductDTOWhenIdIsNull() {
+        productDTO.setId(null);
         ProductDTO result = service.insert(productDTO);
 
         Assertions.assertNotNull(result.getId());

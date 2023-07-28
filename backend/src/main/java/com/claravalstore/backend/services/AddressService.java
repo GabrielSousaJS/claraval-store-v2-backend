@@ -24,12 +24,11 @@ public class AddressService {
         return new AddressDTO(entity);
     }
 
-    @Transactional
-    public AddressDTO insert(AddressDTO dto) {
+    protected Address insert(AddressDTO dto) {
         Address entity = new Address();
         copyDtoToEntity(entity, dto);
         entity = repository.save(entity);
-        return new AddressDTO(entity);
+        return entity;
     }
 
     @Transactional

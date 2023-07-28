@@ -80,6 +80,7 @@ class CategoryServiceTests {
 
     @Test
     void saveShouldReturnCategoryDTOWhenIdIsNull() {
+        categoryDTO.setId(null);
         CategoryDTO result = service.insert(categoryDTO);
 
         Assertions.assertNotNull(result.getId());
