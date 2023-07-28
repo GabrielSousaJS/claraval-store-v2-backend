@@ -3,6 +3,7 @@ package com.claravalstore.backend.services;
 import com.claravalstore.backend.dto.ProductDTO;
 import com.claravalstore.backend.entities.Category;
 import com.claravalstore.backend.entities.Product;
+import com.claravalstore.backend.projections.ProductProjection;
 import com.claravalstore.backend.repositories.CategoryRepository;
 import com.claravalstore.backend.repositories.ProductRepository;
 import com.claravalstore.backend.services.exceptions.DatabaseException;
@@ -45,7 +46,6 @@ class ProductServiceTests {
     private Product product;
     private ProductDTO productDTO;
     private Category category;
-    private PageImpl<Product> page;
 
     @BeforeEach
     void setUp() {
@@ -55,9 +55,6 @@ class ProductServiceTests {
         product = Factory.createProduct();
         productDTO = Factory.createProductDTO();
         category = Factory.createCategory();
-        page = new PageImpl<>(List.of(product));
-
-        Mockito.when(repository.searchAllPaged(ArgumentMatchers.any())).thenReturn(page);
 
         Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(product);
 
@@ -75,16 +72,6 @@ class ProductServiceTests {
         Mockito.when(repository.existsById(dependentId)).thenReturn(true);
 
         Mockito.doThrow(DataIntegrityViolationException.class).when(repository).deleteById(dependentId);
-    }
-
-    @Test
-    void findAllPagedShouldReturnPage() {
-        Pageable pageable = PageRequest.of(0, 12);
-
-        Page<ProductDTO> result = service.findAllPaged(pageable);
-
-        Assertions.assertNotNull(result);
-        Mockito.verify(repository).searchAllPaged(pageable);
     }
 
     @Test

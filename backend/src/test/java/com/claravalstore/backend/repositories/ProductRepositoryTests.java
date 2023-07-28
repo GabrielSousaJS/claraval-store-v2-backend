@@ -1,6 +1,8 @@
 package com.claravalstore.backend.repositories;
 
+import com.claravalstore.backend.dto.ProductDTO;
 import com.claravalstore.backend.entities.Product;
+import com.claravalstore.backend.projections.ProductProjection;
 import com.claravalstore.backend.tests.Factory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 @DataJpaTest
@@ -22,23 +25,27 @@ class ProductRepositoryTests {
     private long existingId;
     private long nonExistingId;
     private long countTotalProducts;
+    private List<Long> categoryIds;
 
     @BeforeEach
     void setUp() {
         existingId = 1L;
         nonExistingId = 1000L;
         countTotalProducts = 48L;
+
+        categoryIds = List.of(existingId);
     }
 
     @Test
     void findAllShouldReturnPageProduct() {
         Pageable pageable = PageRequest.of(0, 12);
 
-        Page<Product> page = repository.searchAllPaged(pageable);
+        Page<ProductProjection> pageProjection = repository.searchProducts(categoryIds, "", pageable);
+        List<Long> productIds = pageProjection.map(ProductProjection::getId).toList();
+        List<Product> list = repository.searchProductsWithCategories(productIds);
 
-        Assertions.assertFalse(page.isEmpty());
-        Assertions.assertEquals(0, page.getNumber());
-        Assertions.assertEquals(12, page.getSize());
+        Assertions.assertFalse(list.isEmpty());
+        Assertions.assertEquals(list.size(), countTotalProducts);
     }
 
     @Test

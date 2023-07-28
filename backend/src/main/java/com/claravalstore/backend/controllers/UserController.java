@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -21,12 +22,14 @@ public class UserController {
     @Autowired
     private UserService service;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<Page<UserMinDTO>> findAllPaged(Pageable pageable) {
         Page<UserMinDTO> page = service.findAllPaged(pageable);
         return ResponseEntity.ok(page);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
         UserDTO dto = service.findById(id);
@@ -41,6 +44,7 @@ public class UserController {
         return ResponseEntity.created(uri).body(newDto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/add-admin")
     public ResponseEntity<UserDTO> insertAdmin(@Valid @RequestBody UserInsertDTO dto) {
         UserDTO newDto = service.insertAdmin(dto);

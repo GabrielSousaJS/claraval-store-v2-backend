@@ -40,6 +40,7 @@ public class Factory {
 
     public static User createUser() {
         User user = new User(1L, "João Silva", Instant.parse("1990-07-20T10:30:00Z"), "joao.silva@gmail.com", "12345678");
+        user.setAddress(createAddress());
         user.getPrivileges().add(createPrivilege());
         return user;
     }
@@ -50,5 +51,20 @@ public class Factory {
 
     public static UserMinDTO createUserMinDTO() {
         return new UserMinDTO(createUser());
+    }
+
+    public static UserInsertDTO createUserInsertDTO() {
+        return copyUserDtoToUserInsertDto(createUserDTO());
+    }
+
+    private static UserInsertDTO copyUserDtoToUserInsertDto(UserDTO dto) {
+        UserInsertDTO userInsertDTO = new UserInsertDTO();
+        userInsertDTO.setName(dto.getName());
+        userInsertDTO.setEmail(dto.getEmail());
+        userInsertDTO.setPassword(createUser().getPassword());
+        userInsertDTO.setBirthDate(dto.getBirthDate());
+        userInsertDTO.setAddress(dto.getAddress());
+        userInsertDTO.getPrivileges().add(dto.getPrivileges().get(0));
+        return userInsertDTO;
     }
 }
