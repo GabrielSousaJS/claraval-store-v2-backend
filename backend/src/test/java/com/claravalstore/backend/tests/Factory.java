@@ -2,6 +2,7 @@ package com.claravalstore.backend.tests;
 
 import com.claravalstore.backend.dto.*;
 import com.claravalstore.backend.entities.*;
+import com.claravalstore.backend.projections.ProductProjection;
 
 import java.time.Instant;
 
@@ -66,5 +67,19 @@ public class Factory {
         userInsertDTO.setAddress(dto.getAddress());
         userInsertDTO.getPrivileges().add(dto.getPrivileges().get(0));
         return userInsertDTO;
+    }
+
+    public static ProductProjection createProductProjection() {
+        return new ProductProjection() {
+            @Override
+            public Long getId() {
+                return 1L;
+            }
+
+            @Override
+            public String getName() {
+                return "Phone";
+            }
+        };
     }
 }

@@ -45,16 +45,24 @@ class ProductServiceTests {
     private long dependentId;
     private Product product;
     private ProductDTO productDTO;
-    private Category category;
+    private ProductProjection projection;
 
     @BeforeEach
     void setUp() {
         existingId = 1L;
         nonExistingId = 2L;
         dependentId = 3L;
+
         product = Factory.createProduct();
         productDTO = Factory.createProductDTO();
-        category = Factory.createCategory();
+        Category category = Factory.createCategory();
+
+        projection = Factory.createProductProjection();
+        PageImpl<ProductProjection> page = new PageImpl<>(List.of(projection));
+        List<Product> list = List.of(product);
+
+        Mockito.when(repository.searchProducts(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(page);
+        Mockito.when(repository.searchProductsWithCategories(ArgumentMatchers.any())).thenReturn(list);
 
         Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(product);
 
@@ -72,6 +80,19 @@ class ProductServiceTests {
         Mockito.when(repository.existsById(dependentId)).thenReturn(true);
 
         Mockito.doThrow(DataIntegrityViolationException.class).when(repository).deleteById(dependentId);
+    }
+
+    @Test
+    void findAllPagedShouldReturnPage() {
+        String name = "";
+        String categoryId = "0";
+        Pageable pageable = PageRequest.of(0, 12);
+
+        Page<ProductDTO> page = service.findAllPaged(name, categoryId, pageable);
+
+        Assertions.assertNotNull(page);
+        Mockito.verify(repository).searchProducts(List.of(), name, pageable);
+        Mockito.verify(repository).searchProductsWithCategories(List.of(projection.getId()));
     }
 
     @Test

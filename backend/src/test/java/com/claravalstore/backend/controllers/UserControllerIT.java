@@ -1,8 +1,6 @@
 package com.claravalstore.backend.controllers;
 
-import com.claravalstore.backend.dto.UserDTO;
 import com.claravalstore.backend.dto.UserInsertDTO;
-import com.claravalstore.backend.dto.UserMinDTO;
 import com.claravalstore.backend.tests.Factory;
 import com.claravalstore.backend.tests.TokenUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
