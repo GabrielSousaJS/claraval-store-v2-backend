@@ -22,16 +22,16 @@ class UserRepositoryTests {
     private long existingId;
     private long nonExistingId;
     private long countTotalUsers;
-    private String existingName;
-    private String nonExistingName;
+    private String existingEmail;
+    private String nonExistingEmail;
 
     @BeforeEach
     void setUp() {
         existingId = 1L;
         nonExistingId = 1000L;
         countTotalUsers = 5L;
-        existingName = "Gabriela Oliveira";
-        nonExistingName = "João Silva";
+        existingEmail = "gabriela.oliveira@gmail.com";
+        nonExistingEmail = "joao.silva@gmail.com";
     }
 
     @Test
@@ -58,15 +58,15 @@ class UserRepositoryTests {
     }
 
     @Test
-    void findByNameShouldReturnUserWhenExistName() {
-        User result = repository.findByName(existingName);
+    void findByEmailShouldReturnUserWhenExistName() {
+        User result = repository.findByEmail(existingEmail);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(existingName, result.getName());
+        Assertions.assertEquals(existingEmail, result.getEmail());
     }
 
     @Test
-    void findByNameShouldReturnNullWhenNameDoesNotExist() {
-        User result = repository.findByName(nonExistingName);
+    void findByEmailShouldReturnNullWhenNameDoesNotExist() {
+        User result = repository.findByEmail(nonExistingEmail);
         Assertions.assertNull(result);
     }
 
@@ -74,6 +74,7 @@ class UserRepositoryTests {
     void saveShouldPersistWithAutoincrementWhenIdIsNull() {
         User user = Factory.createUser();
         user.setId(null);
+        user.setAddress(null);
 
         user = repository.save(user);
 

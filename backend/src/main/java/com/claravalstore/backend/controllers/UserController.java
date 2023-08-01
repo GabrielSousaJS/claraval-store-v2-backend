@@ -36,6 +36,13 @@ public class UserController {
         return ResponseEntity.ok(dto);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
+    @GetMapping(value = "/profile")
+    public ResponseEntity<UserDTO> findLoggedInProfile() {
+        UserDTO dto = service.findLoggedInProfile();
+        return ResponseEntity.ok(dto);
+    }
+
     @PostMapping
     public ResponseEntity<UserDTO> insertClient(@Valid @RequestBody UserInsertDTO dto) {
         UserDTO newDto = service.insertClient(dto);

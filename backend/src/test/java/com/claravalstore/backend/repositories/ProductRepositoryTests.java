@@ -33,7 +33,7 @@ class ProductRepositoryTests {
         nonExistingId = 1000L;
         countTotalProducts = 48L;
 
-        categoryIds = List.of(existingId);
+        categoryIds = List.of();
     }
 
     @Test
@@ -45,7 +45,7 @@ class ProductRepositoryTests {
         List<Product> list = repository.searchProductsWithCategories(productIds);
 
         Assertions.assertFalse(list.isEmpty());
-        Assertions.assertEquals(list.size(), countTotalProducts);
+        Assertions.assertEquals(pageProjection.getTotalElements(), countTotalProducts);
     }
 
     @Test

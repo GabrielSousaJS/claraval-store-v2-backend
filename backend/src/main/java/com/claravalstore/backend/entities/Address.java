@@ -31,7 +31,8 @@ public class Address {
     @Getter @Setter
     private String country;
 
-    @OneToOne(mappedBy = "address")
+    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
+    @Getter @Setter
     private User user;
 
     public Address() {

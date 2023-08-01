@@ -34,6 +34,9 @@ public class UserService implements UserDetailsService {
     private AddressService addressService;
 
     @Autowired
+    private AuthService authService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
@@ -46,6 +49,12 @@ public class UserService implements UserDetailsService {
     public UserDTO findById(Long id) {
         Optional<User> obj = repository.findById(id);
         User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+        return new UserDTO(entity, entity.getAddress());
+    }
+
+    @Transactional(readOnly = true)
+    public UserDTO findLoggedInProfile() {
+        User entity = authService.authenticated();
         return new UserDTO(entity, entity.getAddress());
     }
 

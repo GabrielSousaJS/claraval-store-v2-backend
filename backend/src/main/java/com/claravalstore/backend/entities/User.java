@@ -19,30 +19,23 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
+    @Getter @Setter
     private Long id;
-    @Getter
-    @Setter
+    @Getter @Setter
     private String name;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-    @Getter
-    @Setter
+    @Getter @Setter
     private Instant birthDate;
-    @Getter
-    @Setter
+
+    @Column(unique = true)
+    @Getter @Setter
     private String email;
-    @Getter
-    @Setter
+    @Getter @Setter
     private String password;
 
     @OneToOne
-    @JoinTable(name = "tb_user_address",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "address_id"))
-    @Getter
-    @Setter
+    @Getter @Setter
     private Address address;
 
     @ManyToMany
