@@ -37,29 +37,10 @@ class AddressServiceTests {
         address = Factory.createAddress();
         addressDTO = Factory.createAddressDTO();
 
-        Mockito.when(repository.searchAddressByLoggedInUser(existingId)).thenReturn(address);
-
         Mockito.when(repository.getReferenceById(existingId)).thenReturn(address);
         Mockito.when(repository.getReferenceById(nonExistingId)).thenThrow(EntityNotFoundException.class);
 
         Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(address);
-    }
-
-    @Test
-    void findAddressByLoggedInUserShouldReturnAddressDTOWhenIdExists() {
-        AddressDTO result = service.findAddressByLoggedInUser(existingId);
-
-        Assertions.assertNotNull(result);
-        Mockito.verify(repository).searchAddressByLoggedInUser(existingId);
-    }
-
-    @Test
-    void findAddressByLoggedInUserShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-            service.findAddressByLoggedInUser(nonExistingId);
-        });
-
-        Mockito.verify(repository).searchAddressByLoggedInUser(nonExistingId);
     }
 
     @Test

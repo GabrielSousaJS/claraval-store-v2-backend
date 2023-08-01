@@ -14,14 +14,10 @@ class AddressRepositoryTests {
     @Autowired
     private AddressRepository repository;
 
-    private long existingId;
-    private long nonExistingId;
     private long countTotalAddress;
 
     @BeforeEach
     void setUp() {
-        existingId = 1L;
-        nonExistingId = 1000L;
         countTotalAddress = 5L;
     }
 
@@ -34,17 +30,5 @@ class AddressRepositoryTests {
 
         Assertions.assertNotNull(address.getId());
         Assertions.assertEquals(countTotalAddress + 1, address.getId());
-    }
-
-    @Test
-    void searchAddressByLoggedInUserShouldReturnAddressWhenUserExists() {
-        Address result = repository.searchAddressByLoggedInUser(existingId);
-        Assertions.assertNotNull(result);
-    }
-
-    @Test
-    void searchAddressByLoggedInUserShouldReturnNullWhenUserDoesNotExist() {
-        Address result = repository.searchAddressByLoggedInUser(nonExistingId);
-        Assertions.assertNull(result);
     }
 }

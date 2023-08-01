@@ -15,15 +15,6 @@ public class AddressService {
     @Autowired
     private AddressRepository repository;
 
-    @Transactional(readOnly = true)
-    public AddressDTO findAddressByLoggedInUser(Long id) {
-        Address entity = repository.searchAddressByLoggedInUser(id);
-        if (entity == null)
-            throw new ResourceNotFoundException("Endereço não encontrado");
-
-        return new AddressDTO(entity);
-    }
-
     protected Address insert(AddressDTO dto) {
         Address entity = new Address();
         copyDtoToEntity(entity, dto);
