@@ -59,4 +59,11 @@ public class UserController {
                 .buildAndExpand(newDto.getId()).toUri();
         return ResponseEntity.created(uri).body(newDto);
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserInsertDTO dto) {
+        UserDTO newDto = service.update(id, dto);
+        return ResponseEntity.ok(newDto);
+    }
 }

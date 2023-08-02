@@ -13,8 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -125,6 +124,46 @@ class UserControllerIT {
         String jsonBody = objectMapper.writeValueAsString(userInsertDTO);
 
         mockMvc.perform(post("/api/users/add-admin")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void updateShouldReturnUserDTOWhenAdminLogged() throws Exception {
+        String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
+        String jsonBody = objectMapper.writeValueAsString(userInsertDTO);
+
+        mockMvc.perform(put("/api/users/{id}", existingId)
+                        .header("Authorization", "Bearer " + accessToken)
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.name").value(userInsertDTO.getName()))
+                .andExpect(jsonPath("$.email").value(userInsertDTO.getEmail()));
+    }
+
+    @Test
+    void updateShouldReturnNotFoundWhenIdDoesNotExistAndAdminLogged() throws Exception {
+        String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
+        String jsonBody = objectMapper.writeValueAsString(userInsertDTO);
+
+        mockMvc.perform(put("/api/users/{id}", nonExistingId)
+                        .header("Authorization", "Bearer " + accessToken)
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void updateShouldReturn401WhenNoAdminLogged() throws Exception {
+        String jsonBody = objectMapper.writeValueAsString(userInsertDTO);
+
+        mockMvc.perform(put("/api/users/{id}", existingId)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

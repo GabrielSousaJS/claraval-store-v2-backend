@@ -61,9 +61,12 @@ class UserServiceTests {
         Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(user));
         Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
 
+        Mockito.when(repository.getReferenceById(existingId)).thenReturn(user);
+
         Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(user);
 
         Mockito.when(addressService.insert(ArgumentMatchers.any())).thenReturn(Factory.createAddress());
+        Mockito.when(addressService.update(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(Factory.createAddress());
 
         Mockito.when(privilegeService.clientPrivilege()).thenReturn(Factory.createPrivilege());
 
@@ -110,6 +113,16 @@ class UserServiceTests {
         UserDTO result = service.insertAdmin(Factory.createUserInsertDTO());
 
         Assertions.assertNotNull(result);
+        Mockito.verify(repository).save(ArgumentMatchers.any());
+    }
+
+    @Test
+    void updateShouldReturnUserDTOWhenIdExists() {
+        UserDTO result = service.update(existingId, Factory.createUserInsertDTO());
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(result.getId(), existingId);
+        Mockito.verify(repository).getReferenceById(existingId);
         Mockito.verify(repository).save(ArgumentMatchers.any());
     }
 }

@@ -8,6 +8,7 @@ import com.claravalstore.backend.entities.User;
 import com.claravalstore.backend.projections.UserDetailsProjection;
 import com.claravalstore.backend.repositories.UserRepository;
 import com.claravalstore.backend.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -63,6 +64,7 @@ public class UserService implements UserDetailsService {
         User entity = new User();
 
         copyDtoToEntity(entity, dto);
+        entity.setAddress(addressService.insert(dto.getAddress()));
         entity.addPrivilege(privilegeService.clientPrivilege());
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
 
@@ -75,6 +77,7 @@ public class UserService implements UserDetailsService {
         User entity = new User();
 
         copyDtoToEntity(entity, dto);
+        entity.setAddress(addressService.insert(dto.getAddress()));
         entity.addPrivilege(privilegeService.clientPrivilege());
         entity.addPrivilege(privilegeService.adminPrivilege());
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -83,11 +86,25 @@ public class UserService implements UserDetailsService {
         return new UserDTO(entity, entity.getAddress());
     }
 
+    @Transactional
+    public UserDTO update(Long id, UserInsertDTO dto) {
+        try {
+            User entity = repository.getReferenceById(id);
+
+            copyDtoToEntity(entity, dto);
+            entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+            entity.setAddress(addressService.update(entity.getAddress().getId(), dto.getAddress()));
+            repository.save(entity);
+            return new UserDTO(entity, entity.getAddress());
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Usuário não encontrado para atualização");
+        }
+    }
+
     private void copyDtoToEntity(User entity, UserDTO dto) {
         entity.setName(dto.getName());
         entity.setEmail(dto.getEmail());
         entity.setBirthDate(dto.getBirthDate());
-        entity.setAddress(addressService.insert(dto.getAddress()));
     }
 
     @Override
