@@ -3,6 +3,7 @@ package com.claravalstore.backend.services;
 import com.claravalstore.backend.dto.CategoryDTO;
 import com.claravalstore.backend.dto.ProductDTO;
 import com.claravalstore.backend.entities.Category;
+import com.claravalstore.backend.entities.OrderItem;
 import com.claravalstore.backend.entities.Product;
 import com.claravalstore.backend.projections.ProductProjection;
 import com.claravalstore.backend.repositories.CategoryRepository;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 @Service
@@ -99,6 +101,14 @@ public class ProductService {
         for (CategoryDTO catDto : dto.getCategories()) {
             Category category = categoryRepository.getReferenceById(catDto.getId());
             entity.getCategories().add(category);
+        }
+    }
+
+    protected void updateQuantityOfProducts(Set<OrderItem> items) {
+        for (OrderItem item : items) {
+            Product product = repository.getReferenceById(item.getProduct().getId());
+            product.setQuantity(product.getQuantity() - item.getQuantity());
+            update(product.getId(), new ProductDTO(product, product.getCategories()));
         }
     }
 }

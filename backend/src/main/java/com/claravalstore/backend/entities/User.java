@@ -8,10 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_users")
@@ -37,6 +34,10 @@ public class User implements UserDetails {
     @OneToOne
     @Getter @Setter
     private Address address;
+
+    @OneToMany(mappedBy = "client")
+    @Getter
+    private List<Order> orders = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "tb_user_privilege",

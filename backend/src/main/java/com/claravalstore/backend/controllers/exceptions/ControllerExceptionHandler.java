@@ -1,6 +1,7 @@
 package com.claravalstore.backend.controllers.exceptions;
 
 import com.claravalstore.backend.services.exceptions.DatabaseException;
+import com.claravalstore.backend.services.exceptions.PaymentMadeException;
 import com.claravalstore.backend.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -47,6 +48,16 @@ public class ControllerExceptionHandler {
             err.addError(fieldError.getField(), fieldError.getDefaultMessage());
         }
 
+        return ResponseEntity.status(err.getStatus()).body(err);
+    }
+
+    @ExceptionHandler(PaymentMadeException.class)
+    public ResponseEntity<StandardError> paymentMade(PaymentMadeException e, HttpServletRequest request) {
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
+        err.setError(e.getMessage());
+        err.setPath(request.getRequestURI());
         return ResponseEntity.status(err.getStatus()).body(err);
     }
 }
