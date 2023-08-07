@@ -44,6 +44,13 @@ public class Order {
     public Order() {
     }
 
+    public Order(Long id, Instant moment, OrderStatus status, User client) {
+        this.id = id;
+        this.moment = moment;
+        this.status = status;
+        this.client = client;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

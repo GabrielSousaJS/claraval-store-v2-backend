@@ -24,6 +24,14 @@ public class OrderItemPk implements Serializable {
     @Getter @Setter
     private Product product;
 
+    public OrderItemPk() {
+    }
+
+    public OrderItemPk(Order order, Product product) {
+        this.order = order;
+        this.product = product;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

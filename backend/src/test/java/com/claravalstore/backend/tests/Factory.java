@@ -2,7 +2,10 @@ package com.claravalstore.backend.tests;
 
 import com.claravalstore.backend.dto.*;
 import com.claravalstore.backend.entities.*;
+import com.claravalstore.backend.entities.enums.OrderStatus;
+import com.claravalstore.backend.entities.pk.OrderItemPk;
 import com.claravalstore.backend.projections.ProductProjection;
+import org.springframework.orm.ObjectRetrievalFailureException;
 
 import java.time.Instant;
 
@@ -50,10 +53,6 @@ public class Factory {
         return new UserDTO(createUser(), createAddress());
     }
 
-    public static UserMinDTO createUserMinDTO() {
-        return new UserMinDTO(createUser());
-    }
-
     public static UserInsertDTO createUserInsertDTO() {
         return copyUserDtoToUserInsertDto(createUserDTO());
     }
@@ -81,5 +80,40 @@ public class Factory {
                 return "Phone";
             }
         };
+    }
+
+    public static Order createOrder() {
+        Order order = new Order(1L, Instant.parse("2023-08-05T00:00:00Z"), createOrderStatus(), createUser());
+        OrderItem item = new OrderItem(order, createProduct(), 3, createProduct().getPrice());
+        order.getItems().add(item);
+        return order;
+    }
+
+    private static OrderStatus createOrderStatus() {
+        return OrderStatus.PAGO;
+    }
+
+    public static OrderItem createOrderItem() {
+        return new OrderItem(createOrder(), createProduct(), 3, createProduct().getPrice());
+    }
+
+    public static OrderItemDTO createOrderItemDTO() {
+        return new OrderItemDTO(createOrderItem());
+    }
+
+    public static Payment createPayment() {
+        return new Payment(1L, Instant.parse("2023-08-05T00:00:00Z"));
+    }
+
+    public static PaymentDTO createPaymentDTO() {
+        return new PaymentDTO(createPayment());
+    }
+
+    public static OrderDTO createOrderDTO() {
+        return new OrderDTO(createOrder());
+    }
+
+    public static OrderItemPk createOrderItemPk() {
+        return new OrderItemPk(createOrder(), createProduct());
     }
 }

@@ -4,6 +4,7 @@ import com.claravalstore.backend.entities.Order;
 import com.claravalstore.backend.entities.OrderItem;
 import com.claravalstore.backend.entities.enums.OrderStatus;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class OrderDTO {
 
-    @Getter
+    @Getter @Setter
     private Long id;
     @Getter
     private Instant moment;
