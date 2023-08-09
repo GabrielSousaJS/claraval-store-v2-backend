@@ -23,7 +23,7 @@ class OrderRepositoryTests {
 
     @BeforeEach
     void setUp() {
-        countTotalOrders = 2L;
+        countTotalOrders = 3L;
     }
 
     @Test
@@ -32,7 +32,7 @@ class OrderRepositoryTests {
 
         Page<Order> result = repository.findAll(pageable);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(2, result.getTotalElements());
+        Assertions.assertEquals(3, result.getTotalElements());
     }
 
     @Test
@@ -41,7 +41,7 @@ class OrderRepositoryTests {
 
         List<Order> result = repository.findAllByClientId(clientId);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(1, result.size());
+        Assertions.assertEquals(2, result.size());
     }
 
     @Test

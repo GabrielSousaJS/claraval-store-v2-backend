@@ -15,6 +15,9 @@ public class ClientDTO implements Serializable {
     @Getter
     private String name;
 
+    public ClientDTO() {
+    }
+
     public ClientDTO(User entity) {
         id = entity.getId();
         name = entity.getName();
