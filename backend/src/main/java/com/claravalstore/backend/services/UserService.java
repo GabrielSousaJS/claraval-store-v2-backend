@@ -93,7 +93,6 @@ public class UserService implements UserDetailsService {
 
             copyDtoToEntity(entity, dto);
             entity.setPassword(passwordEncoder.encode(dto.getPassword()));
-            entity.setAddress(addressService.update(entity.getAddress().getId(), dto.getAddress()));
             repository.save(entity);
             return new UserDTO(entity, entity.getAddress());
         } catch (EntityNotFoundException e) {

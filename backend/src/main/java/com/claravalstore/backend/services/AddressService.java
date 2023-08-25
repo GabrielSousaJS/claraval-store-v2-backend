@@ -7,6 +7,7 @@ import com.claravalstore.backend.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AddressService {
@@ -21,12 +22,13 @@ public class AddressService {
         return entity;
     }
 
-    protected Address update(Long id, AddressDTO dto) {
+    @Transactional
+    public AddressDTO update(Long id, AddressDTO dto) {
         try {
             Address entity = repository.getReferenceById(id);
             copyDtoToEntity(entity, dto);
             entity = repository.save(entity);
-            return entity;
+            return new AddressDTO(entity);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Endereço não encontrado para atualização");
         }

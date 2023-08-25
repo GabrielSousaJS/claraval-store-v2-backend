@@ -61,7 +61,7 @@ class AddressServiceTests {
 
     @Test
     void updateShouldReturnAddressDTOWhenIdExists() {
-        Address result = service.update(existingId, addressDTO);
+        AddressDTO result = service.update(existingId, addressDTO);
 
         Assertions.assertNotNull(result);
         Mockito.verify(repository).getReferenceById(existingId);

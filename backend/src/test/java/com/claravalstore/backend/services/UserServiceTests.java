@@ -66,7 +66,6 @@ class UserServiceTests {
         Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(user);
 
         Mockito.when(addressService.insert(ArgumentMatchers.any())).thenReturn(Factory.createAddress());
-        Mockito.when(addressService.update(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(Factory.createAddress());
 
         Mockito.when(privilegeService.clientPrivilege()).thenReturn(Factory.createPrivilege());
 

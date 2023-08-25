@@ -49,7 +49,7 @@ INSERT INTO tb_products (name, description, price, quantity, img_Url) VALUES ('C
 INSERT INTO tb_products (name, description, price, quantity, img_Url) VALUES ('Jaqueta de couro', 'Jaqueta de couro sintético, forrada, com zíper', 199.90, 12,'https://m.media-amazon.com/images/I/71h9QfV3y2L._AC_SX522_.jpg');
 INSERT INTO tb_products (name, description, price, quantity, img_Url) VALUES ('Sapato social', 'Sapatos clássicos de couro', 179.90, 16,'https://cdn.shoppub.io/cdn-cgi/image/w=1000,h=1000,q=80,f=auto/jotape/media/uploads/produtos/foto/b87063aaedf3bsapato_social_com_altura_air_vinitti_preto78205_1.jpg');
 INSERT INTO tb_products (name, description, price, quantity, img_Url) VALUES ('Calção de praia', 'Calções de praia estampados, modelo homem', 49.90, 23,'https://shophammer.com.br/wp-content/uploads/2022/10/bermuda-tactel-com-elastano-masculina-qualidade-conforto-macies-hammer-bermudas-hammer-45.jpg');
-INSERT INTO tb_products (name, description, price, quantity, img_Url) VALUES ('Vestido longo', 'Vestido longo estampado, modelo feminino', 149.90, 21,'https://d3ugyf2ht6aenh.cloudfront.net/stores/888/593/tb_products/carol-kucher-202107921-eac52d3ca04bdeb01916221400728604-640-0.webp');
+INSERT INTO tb_products (name, description, price, quantity, img_Url) VALUES ('Vestido longo', 'Vestido longo estampado, modelo feminino', 149.90, 21,'https://img.ltwebstatic.com/gspCenter/goodsImage/2023/1/18/3211024274_1007406/2F7093A71DCA24ED22FE16174ECCD6F1_thumbnail_600x.jpg');
 INSERT INTO tb_products (name, description, price, quantity, img_Url) VALUES ('Tênis Sapatênis', 'Visual inovador, leve e confortável, maior durabilidade, Calça com facilidade.', 99.90, 7,'https://m.media-amazon.com/images/I/61bvNOzhrCL._AC_SY395_.jpg');
 
 -- Itens para casa e decoração
