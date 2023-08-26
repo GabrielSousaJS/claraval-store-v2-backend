@@ -3,11 +3,11 @@ INSERT INTO tb_privilege (authority) VALUES ('ROLE_ADMIN');
 INSERT INTO tb_privilege (authority) VALUES ('ROLE_CLIENT');
 
 -- Endereços
-INSERT INTO tb_address (street, cep, number, neighborhood, complement, city, state, country) VALUES ('Rua Augusta', '01305-100', 1200, 'Consolação', 'de 699 a 1679 - lado ímpar', 'São Paulo', 'São Paulo', 'Brasil');
-INSERT INTO tb_address (street, cep, number, neighborhood, complement, city, state, country) VALUES ('Avenida Atlântica', '22011-010', 1500, 'Copacabana', 'lado par', 'Rio de Janeiro', 'Rio de Janeiro', 'Brasil');
-INSERT INTO tb_address (street, cep, number, neighborhood, complement, city, state, country) VALUES ('Rua Sergipe', '30130-170', 800, 'Boa Viagem', 'até 519/520', 'Belo Horizonte', 'Minas Gerais', 'Brasil');
-INSERT INTO tb_address (street, cep, number, neighborhood, complement, city, state, country) VALUES ('Setor Comercial Sul', '70390-901', 3, 'Asa Sul', 'SHLS Conjunto N Bloco D', 'Brasília', 'Distrito Federal', 'Brasil');
-INSERT INTO tb_address (street, cep, number, neighborhood, complement, city, state, country) VALUES ('Rua Visconde do Rio Branco', '80420-210', 1500, 'Centro', 'de 1276/1277 ao fim', 'Curitiba', 'Paraná', 'Brasil');
+INSERT INTO tb_address (street, cep, number, neighborhood, complement, city, state, country) VALUES ('Rua Augusta', '01305-100', 1200, 'Consolação', 'de 699 a 1679 - lado ímpar', 'São Paulo', 'SP', 'Brasil');
+INSERT INTO tb_address (street, cep, number, neighborhood, complement, city, state, country) VALUES ('Avenida Atlântica', '22011-010', 1500, 'Copacabana', 'lado par', 'Rio de Janeiro', 'RJ', 'Brasil');
+INSERT INTO tb_address (street, cep, number, neighborhood, complement, city, state, country) VALUES ('Rua Sergipe', '30130-170', 800, 'Boa Viagem', 'até 519/520', 'Belo Horizonte', 'MG', 'Brasil');
+INSERT INTO tb_address (street, cep, number, neighborhood, complement, city, state, country) VALUES ('Setor Comercial Sul', '70390-901', 3, 'Asa Sul', 'SHLS Conjunto N Bloco D', 'Brasília', 'DF', 'Brasil');
+INSERT INTO tb_address (street, cep, number, neighborhood, complement, city, state, country) VALUES ('Rua Visconde do Rio Branco', '80420-210', 1500, 'Centro', 'de 1276/1277 ao fim', 'Curitiba', 'PR', 'Brasil');
 
 
 -- Usuários

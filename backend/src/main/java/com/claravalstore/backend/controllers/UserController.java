@@ -1,5 +1,6 @@
 package com.claravalstore.backend.controllers;
 
+import com.claravalstore.backend.dto.PasswordUpdateDTO;
 import com.claravalstore.backend.dto.UserDTO;
 import com.claravalstore.backend.dto.UserInsertDTO;
 import com.claravalstore.backend.dto.UserMinDTO;
@@ -62,8 +63,15 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserInsertDTO dto) {
-        UserDTO newDto = service.update(id, dto);
-        return ResponseEntity.ok(newDto);
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO dto) {
+        dto = service.update(id, dto);
+        return ResponseEntity.ok(dto);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
+    @PutMapping
+    public ResponseEntity<Void> updatePassword(@RequestBody PasswordUpdateDTO dto) {
+        service.updatePassword(dto);
+        return ResponseEntity.noContent().build();
     }
 }

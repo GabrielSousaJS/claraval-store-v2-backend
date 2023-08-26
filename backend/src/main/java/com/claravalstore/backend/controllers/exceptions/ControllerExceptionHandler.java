@@ -1,6 +1,7 @@
 package com.claravalstore.backend.controllers.exceptions;
 
 import com.claravalstore.backend.services.exceptions.DatabaseException;
+import com.claravalstore.backend.services.exceptions.IncorrectPassword;
 import com.claravalstore.backend.services.exceptions.PaymentMadeException;
 import com.claravalstore.backend.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -56,6 +57,16 @@ public class ControllerExceptionHandler {
         StandardError err = new StandardError();
         err.setTimestamp(Instant.now());
         err.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
+        err.setError(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(err.getStatus()).body(err);
+    }
+
+    @ExceptionHandler(IncorrectPassword.class)
+    public ResponseEntity<StandardError> incorrectPassword(IncorrectPassword e, HttpServletRequest request) {
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(HttpStatus.BAD_REQUEST.value());
         err.setError(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(err.getStatus()).body(err);
