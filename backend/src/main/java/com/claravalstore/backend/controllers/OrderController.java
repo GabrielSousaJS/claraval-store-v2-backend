@@ -30,8 +30,15 @@ public class OrderController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<OrderDTO> findById(@PathVariable Long id) {
+        OrderDTO dto = service.findById(id);
+        return ResponseEntity.ok(dto);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
     @GetMapping(value = "/client-orders")
-    public ResponseEntity<List<OrderDTO>> findAllByClientId() {
+    public ResponseEntity<List<OrderDTO>> findAllByClient() {
         List<OrderDTO> list = service.findAllByClient();
         return ResponseEntity.ok(list);
     }

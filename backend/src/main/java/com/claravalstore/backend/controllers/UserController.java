@@ -69,7 +69,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
-    @PutMapping
+    @PutMapping(value = "/password")
     public ResponseEntity<Void> updatePassword(@RequestBody PasswordUpdateDTO dto) {
         service.updatePassword(dto);
         return ResponseEntity.noContent().build();

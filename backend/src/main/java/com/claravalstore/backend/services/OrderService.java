@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -52,6 +53,13 @@ public class OrderService {
     public Page<OrderDTO> findAllPaged(Pageable pageable) {
         Page<Order> page = repository.findAll(pageable);
         return page.map(OrderDTO::new);
+    }
+
+    @Transactional(readOnly = true)
+    public OrderDTO findById(Long id) {
+        Optional<Order> obj = repository.findById(id);
+        Order entity = obj.orElseThrow(() -> new ResourceNotFoundException("Pedido não encontrado"));
+        return new OrderDTO(entity);
     }
 
     @Transactional(readOnly = true)

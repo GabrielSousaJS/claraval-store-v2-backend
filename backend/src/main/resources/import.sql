@@ -175,6 +175,7 @@ INSERT INTO tb_order (moment, status, client_id) VALUES (TIMESTAMP WITH TIME ZON
 INSERT INTO tb_order_item (order_id, product_id, quantity, price) VALUES (1, 1, 2, 12582.60);
 INSERT INTO tb_order_item (order_id, product_id, quantity, price) VALUES (2, 2, 1, 8194.70);
 INSERT INTO tb_order_item (order_id, product_id, quantity, price) VALUES (3, 1, 2, 12582.60);
+INSERT INTO tb_order_item (order_id, product_id, quantity, price) VALUES (3, 2, 1, 8194.70);
 
 INSERT INTO tb_payment (order_id, moment) VALUES (1, TIMESTAMP WITH TIME ZONE '2023-07-03T13:00:00Z');
 INSERT INTO tb_payment (order_id, moment) VALUES (2, TIMESTAMP WITH TIME ZONE '2023-08-02T13:00:00Z');
