@@ -1,5 +1,6 @@
 package com.claravalstore.backend.projections;
 
-public interface ProductProjection extends IdProjection<Long> {
+public interface ProductProjection {
+    Long getId();
     String getName();
 }
