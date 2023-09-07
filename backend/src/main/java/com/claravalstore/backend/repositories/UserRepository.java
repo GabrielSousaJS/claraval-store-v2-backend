@@ -17,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
                 INNER JOIN tb_privilege ON tb_privilege.id = tb_user_privilege.privilege_id WHERE tb_users.email = :email
             """)
     List<UserDetailsProjection> searchUserAndPrivilegesByEmail(String email);
+
+    @Query("SELECT obj FROM User obj INNER JOIN obj.privileges AS privileges WHERE privileges.authority = 'ROLE_ADMIN'")
+    List<User> searchUserAdmin();
 }

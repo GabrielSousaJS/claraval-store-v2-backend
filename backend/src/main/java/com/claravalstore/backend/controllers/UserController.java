@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/users")
@@ -28,6 +29,13 @@ public class UserController {
     public ResponseEntity<Page<UserMinDTO>> findAllPaged(Pageable pageable) {
         Page<UserMinDTO> page = service.findAllPaged(pageable);
         return ResponseEntity.ok(page);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(value = "/all-admins")
+    public ResponseEntity<List<UserMinDTO>> findAllAdmins() {
+        List<UserMinDTO> list = service.findAllAdmins();
+        return ResponseEntity.ok(list);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

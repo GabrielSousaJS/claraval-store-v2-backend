@@ -49,6 +49,12 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional(readOnly = true)
+    public List<UserMinDTO> findAllAdmins() {
+        List<User> list = repository.searchUserAdmin();
+        return list.stream().map(UserMinDTO::new).toList();
+    }
+
+    @Transactional(readOnly = true)
     public UserDTO findById(Long id) {
         Optional<User> obj = repository.findById(id);
         User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
