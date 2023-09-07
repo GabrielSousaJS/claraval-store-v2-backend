@@ -10,6 +10,7 @@ import com.claravalstore.backend.repositories.CategoryRepository;
 import com.claravalstore.backend.repositories.ProductRepository;
 import com.claravalstore.backend.services.exceptions.DatabaseException;
 import com.claravalstore.backend.services.exceptions.ResourceNotFoundException;
+import com.claravalstore.backend.util.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -34,6 +35,7 @@ public class ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @SuppressWarnings("unchecked")
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAllPaged(
             String name, String categoryId, Pageable pageable
@@ -47,6 +49,9 @@ public class ProductService {
         List<Long> productIds = page.map(ProductProjection::getId).toList();
 
         List<Product> entities = repository.searchProductsWithCategories(productIds);
+
+        entities = (List<Product>) Utils.replace(page.getContent(), entities);
+
         List<ProductDTO> dtos = entities.stream().map(product -> new ProductDTO(product, product.getCategories())).toList();
 
         return new PageImpl<>(dtos, page.getPageable(), page.getTotalElements());

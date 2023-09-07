@@ -1,5 +1,6 @@
 package com.claravalstore.backend.entities;
 
+import com.claravalstore.backend.projections.IdProjection;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tb_products")
-public class Product {
+public class Product implements IdProjection<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

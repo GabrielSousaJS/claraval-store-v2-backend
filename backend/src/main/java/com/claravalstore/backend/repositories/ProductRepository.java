@@ -13,18 +13,19 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query(nativeQuery = true, value = """
-            SELECT DISTINCT tb_products.id, tb_products.name
-            FROM tb_products INNER JOIN tb_product_category ON tb_products.id = tb_product_category.product_id
-            WHERE (:categoryIds IS NULL OR tb_product_category.category_id IN :categoryIds)
-            AND LOWER(tb_products.name) LIKE LOWER(CONCAT('%',:name,'%'))
-            ORDER BY tb_products.name
+            SELECT * FROM(
+                SELECT DISTINCT *
+                FROM tb_products INNER JOIN tb_product_category ON tb_products.id = tb_product_category.product_id
+                WHERE (:categoryIds IS NULL OR tb_product_category.category_id IN :categoryIds)
+                AND LOWER(tb_products.name) LIKE LOWER(CONCAT('%',:name,'%'))
+            ) AS tb_result
             """, countQuery = """
             SELECT COUNT(*) FROM(
-            SELECT DISTINCT tb_products.id, tb_products.name
-                        FROM tb_products INNER JOIN tb_product_category ON tb_products.id = tb_product_category.product_id
-                        WHERE (:categoryIds IS NULL OR tb_product_category.category_id IN :categoryIds)
-                        AND LOWER(tb_products.name) LIKE LOWER(CONCAT('%',:name,'%'))
-                        ORDER BY tb_products.name) AS tb_result
+                SELECT DISTINCT *
+                FROM tb_products INNER JOIN tb_product_category ON tb_products.id = tb_product_category.product_id
+                WHERE (:categoryIds IS NULL OR tb_product_category.category_id IN :categoryIds)
+                AND LOWER(tb_products.name) LIKE LOWER(CONCAT('%',:name,'%'))
+            ) AS tb_result
             """)
     Page<ProductProjection> searchProducts(List<Long> categoryIds, String name, Pageable pageable);
 
