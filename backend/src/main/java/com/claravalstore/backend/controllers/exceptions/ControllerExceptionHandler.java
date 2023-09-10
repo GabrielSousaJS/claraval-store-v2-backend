@@ -1,9 +1,6 @@
 package com.claravalstore.backend.controllers.exceptions;
 
-import com.claravalstore.backend.services.exceptions.DatabaseException;
-import com.claravalstore.backend.services.exceptions.IncorrectPassword;
-import com.claravalstore.backend.services.exceptions.PaymentMadeException;
-import com.claravalstore.backend.services.exceptions.ResourceNotFoundException;
+import com.claravalstore.backend.services.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,5 +67,16 @@ public class ControllerExceptionHandler {
         err.setError(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(err.getStatus()).body(err);
+    }
+
+    @ExceptionHandler(EmailException.class)
+    public ResponseEntity<StandardError> email(EmailException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(status.value());
+        err.setError("Email exception");
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
     }
 }
