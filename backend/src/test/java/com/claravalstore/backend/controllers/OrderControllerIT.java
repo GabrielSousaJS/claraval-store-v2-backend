@@ -92,6 +92,36 @@ class OrderControllerIT {
     }
 
     @Test
+    void findByIdShouldReturnOrderDTOWhenAdminLoggedAndIdExists() throws Exception {
+        String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
+
+        mockMvc.perform(get("/api/orders/{id}", existingId)
+                        .header("Authorization", "Bearer " + accessToken)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(existingId))
+                .andExpect(jsonPath("$.client").exists())
+                .andExpect(jsonPath("$.items").exists());
+    }
+
+    @Test
+    void findByIdShouldReturnNotFoundWhenAdminLoggedAndIdDoesNotExist() throws Exception {
+        String accessToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
+
+        mockMvc.perform(get("/api/orders/{id}", nonExistingId)
+                        .header("Authorization", "Bearer " + accessToken)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void findByIdShouldReturn401WhenNoAdminLogged() throws Exception {
+        mockMvc.perform(get("/api/orders/{id}", existingId)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     void findAllByClientIdShouldReturn401WhenNoUserLogged() throws Exception {
         mockMvc.perform(get("/api/orders/client-orders")
                         .accept(MediaType.APPLICATION_JSON))

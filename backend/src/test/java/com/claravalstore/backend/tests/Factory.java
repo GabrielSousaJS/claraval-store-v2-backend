@@ -8,6 +8,7 @@ import com.claravalstore.backend.projections.ProductProjection;
 import org.springframework.orm.ObjectRetrievalFailureException;
 
 import java.time.Instant;
+import java.util.UUID;
 
 public class Factory {
 
@@ -115,5 +116,13 @@ public class Factory {
 
     public static OrderItemPk createOrderItemPk() {
         return new OrderItemPk(createOrder(), createProduct());
+    }
+
+    public static EmailDTO createEmailDTO() {
+        return new EmailDTO("gabriela.oliveira@gmail.com");
+    }
+
+    public static NewPasswordDTO createNewPasswordDTO() {
+        return new NewPasswordDTO(UUID.randomUUID().toString(), "12345678");
     }
 }
